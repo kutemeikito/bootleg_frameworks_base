@@ -318,5 +318,7 @@ public class SecureSettingsValidators {
             }
             return true;
         });
+        VALIDATORS.put(Secure.BUTTON_BACKLIGHT_TIMEOUT, NON_NEGATIVE_INTEGER_VALIDATOR);
+        VALIDATORS.put(Secure.BUTTON_BRIGHTNESS, NON_NEGATIVE_INTEGER_VALIDATOR);
     }
 }
