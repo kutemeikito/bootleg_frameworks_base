@@ -138,4 +138,7 @@
          (without "Focus" state) instead of Dual-stage. -->
     <bool name="config_singleStageCameraKey">false</bool>
 
+    <!-- Whether device has dash charging support -->
+    <bool name="config_hasDashCharger">false</bool>
+
 </resources>
