@@ -126,7 +126,7 @@ public class TunerFragment extends PreferenceFragment {
         return super.onOptionsItemSelected(item);
     }
 
-    public static class TunerWarningFragment extends DialogFragment {
+    /*public static class TunerWarningFragment extends DialogFragment {
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             return new AlertDialog.Builder(getContext())
@@ -140,5 +140,5 @@ public class TunerFragment extends PreferenceFragment {
                         }
                     }).show();
         }
-    }
+    }*/
 }
