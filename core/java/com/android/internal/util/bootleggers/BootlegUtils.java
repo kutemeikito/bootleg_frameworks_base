@@ -16,8 +16,10 @@
 
 package com.android.internal.util.bootleggers;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -28,8 +30,10 @@ import android.hardware.camera2.CameraManager;
 import android.net.ConnectivityManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.PowerManager;
 import android.os.RemoteException;
 import android.os.ServiceManager;
+import android.os.SystemClock;
 import android.util.DisplayMetrics;
 import android.view.DisplayInfo;
 import android.view.IWindowManager;
@@ -38,6 +42,7 @@ import android.view.WindowManagerGlobal;
 
 import com.android.internal.statusbar.IStatusBarService;
 
+import java.util.List;
 import java.util.Locale;
 
 public class BootlegUtils {
@@ -175,6 +180,29 @@ public class BootlegUtils {
 
     public static boolean isTablet(Context context) {
         return getScreenType(context) == DEVICE_TABLET;
+    }
+
+    public static ActivityInfo getRunningActivityInfo(Context context) {
+        final ActivityManager am = (ActivityManager) context
+                .getSystemService(Context.ACTIVITY_SERVICE);
+        final PackageManager pm = context.getPackageManager();
+
+        List<ActivityManager.RunningTaskInfo> tasks = am.getRunningTasks(1);
+        if (tasks != null && !tasks.isEmpty()) {
+            ActivityManager.RunningTaskInfo top = tasks.get(0);
+            try {
+                return pm.getActivityInfo(top.topActivity, 0);
+            } catch (PackageManager.NameNotFoundException e) {
+            }
+        }
+        return null;
+    }
+
+    public static void switchScreenOff(Context ctx) {
+        PowerManager pm = (PowerManager) ctx.getSystemService(Context.POWER_SERVICE);
+        if (pm!= null) {
+            pm.goToSleep(SystemClock.uptimeMillis());
+        }
     }
 
     // Omni Switch Constants
