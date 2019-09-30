@@ -44,4 +44,8 @@
     <!-- Whether device has VOOC charging support -->
     <java-symbol type="bool" name="config_hasVoocCharger" />
 
+    <!-- Alert slider -->
+    <java-symbol type="bool" name="config_hasAlertSlider" />
+    <java-symbol type="integer" name="config_alertSliderLocation" />
+
 </resources>
