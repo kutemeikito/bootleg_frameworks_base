@@ -23,4 +23,9 @@
     <!-- Max visible notification icons -->
     <java-symbol type="integer" name="config_maxVisibleNotificationIcons" />
     <java-symbol type="integer" name="config_maxVisibleNotificationIconsWhenDark" />
+
+    <!-- Alert slider -->
+    <java-symbol type="bool" name="config_hasAlertSlider" />
+    <java-symbol type="integer" name="config_alertSliderLocation" />
+
 </resources>
