@@ -71,9 +71,9 @@ public class TunerFragment extends PreferenceFragment {
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         addPreferencesFromResource(R.xml.tuner_prefs);
         getPreferenceScreen().removePreference(findPreference(KEY_PLUGINS));
-        if (!alwaysOnAvailable()) {
+        /*if (!alwaysOnAvailable()) {
             getPreferenceScreen().removePreference(findPreference(KEY_DOZE));
-        }
+        }*/
         /*if (!Build.IS_DEBUGGABLE) {
             for (int i = 0; i < DEBUG_ONLY.length; i++) {
                 Preference preference = findPreference(DEBUG_ONLY[i]);
