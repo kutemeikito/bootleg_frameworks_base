@@ -94,4 +94,9 @@
 
     <!-- Pocket Lock -->
     <bool name="config_pocketModeSupported">true</bool>
+
+    <!-- Custom permissions list -->
+    <string-array translatable="false" name="config_customPermissionsList">
+        <!-- <item>more packages</item>-->
+    </string-array>
 </resources>
