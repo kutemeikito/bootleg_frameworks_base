@@ -65,6 +65,7 @@
                 android:ellipsize="marquee"
                 android:textAppearance="@style/TextAppearance.QS.Status"
                 android:layout_marginEnd="4dp"
+                android:textColor="?android:attr/textColorSecondary"
                 android:visibility="gone"/>
          </com.android.keyguard.AlphaOptimizedLinearLayout>
 
