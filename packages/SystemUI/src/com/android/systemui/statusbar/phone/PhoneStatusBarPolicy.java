@@ -409,7 +409,7 @@ public class PhoneStatusBarPolicy
             if (mBluetooth.isBluetoothConnected()
                     && (mBluetooth.isBluetoothAudioActive()
                     || !mBluetooth.isBluetoothAudioProfileOnly())) {
-                List<CachedBluetoothDevice> connectedDevices = mBluetooth.getConnectedDevices();
+                List<CachedBluetoothDevice> devices = mBluetooth.getConnectedDevices();
                 if (devices != null) {
                     // get battery level for the first device with battery level support
                     for (CachedBluetoothDevice device : devices) {
