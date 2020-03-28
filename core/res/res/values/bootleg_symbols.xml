@@ -70,4 +70,7 @@
 
     <!-- Whether device has a motion sense sensor (soli) -->
     <java-symbol type="bool" name="config_has_Soli" />
+
+    <!-- Enable face auth only when swiping security view -->
+    <java-symbol type="bool" name="config_faceAuthOnlyOnSecurityView" />
 </resources>
