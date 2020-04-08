@@ -176,7 +176,8 @@ public class TypeClockController implements ClockPlugin {
         int aodY = mStatusBarHeight + mKeyguardLockHeight + 2 * mKeyguardLockPadding
                 + mBurnInOffsetY + mTypeClock.getHeight();
         // On lock screen, clock needs to appear below the lock icon
-        int lockY =  mStatusBarHeight + mKeyguardLockHeight + 2 * mKeyguardLockPadding;
+        int baseHeight = (int) mTypeClock.getHeight() / 2;
+        int lockY =  mStatusBarHeight + mKeyguardLockHeight + 2 * mKeyguardLockPadding + baseHeight;
         return (int) MathUtils.lerp(lockY, aodY, mDarkAmount);
     }
 
