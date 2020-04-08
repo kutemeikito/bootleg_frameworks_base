@@ -196,7 +196,7 @@ public class OronosClockController implements ClockPlugin {
         if (colorPalette == null || colorPalette.length == 0) {
             return;
         }
-        final int backgroundColor = colorPalette[Math.max(0, colorPalette.length - 9)];
+        final int backgroundColor = colorPalette[Math.max(0, colorPalette.length - 11)];
         final int highlightColor = colorPalette[Math.max(0, colorPalette.length - 5)];
 
         GradientDrawable hourBg = (GradientDrawable) mHourClock.getBackground();
