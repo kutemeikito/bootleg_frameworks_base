@@ -472,7 +472,7 @@ public class RecordingService extends Service {
         notificationManager.createNotificationChannel(channel);
 
         mRecordingNotificationBuilder = new Notification.Builder(this, CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_android)
+                .setSmallIcon(R.drawable.ic_screenrecord_done)
                 .setContentTitle(getResources().getString(R.string.screenrecord_name))
                 .setUsesChronometer(true)
                 .setOngoing(true);
