@@ -109,7 +109,7 @@ public class OronosClockController implements ClockPlugin {
         ColorExtractor.GradientColors colors = mColorExtractor.getColors(
                 WallpaperManager.FLAG_LOCK);
         int[] paletteLS = colors.getColorPalette();
-        if (paletteLS != null || paletteLS.length != 0) {
+        if (paletteLS != null) {
             setColorPalette(colors.supportsDarkText(), colors.getColorPalette());
         } else {
             ColorExtractor.GradientColors sysColors = mColorExtractor.getColors(
@@ -153,7 +153,7 @@ public class OronosClockController implements ClockPlugin {
         ColorExtractor.GradientColors colors = mColorExtractor.getColors(
                 WallpaperManager.FLAG_LOCK);
         int[] paletteLS = colors.getColorPalette();
-        if (paletteLS != null || paletteLS.length != 0) {
+        if (paletteLS != null) {
             setColorPalette(colors.supportsDarkText(), colors.getColorPalette());
         } else {
             ColorExtractor.GradientColors sysColors = mColorExtractor.getColors(
