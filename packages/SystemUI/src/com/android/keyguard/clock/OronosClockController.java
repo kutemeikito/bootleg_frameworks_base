@@ -152,14 +152,34 @@ public class OronosClockController implements ClockPlugin {
         // Initialize state of plugin before generating preview.
         ColorExtractor.GradientColors colors = mColorExtractor.getColors(
                 WallpaperManager.FLAG_LOCK);
-        int[] paletteLS = colors.getColorPalette();
-        if (paletteLS != null) {
-            setColorPalette(colors.supportsDarkText(), colors.getColorPalette());
-        } else {
+        int[] palette = colors.getColorPalette();
+        if (palette == null) {
             ColorExtractor.GradientColors sysColors = mColorExtractor.getColors(
                     WallpaperManager.FLAG_SYSTEM);
-            setColorPalette(sysColors.supportsDarkText(), sysColors.getColorPalette());
+            palette = sysColors.getColorPalette();
         }
+
+        final int bgColor = palette[Math.max(0, palette.length - 11)];
+        final int hiColor = palette[Math.max(0, palette.length - 5)];
+
+        GradientDrawable hourBg = (GradientDrawable) previewHourTime.getBackground();
+        GradientDrawable minBg = (GradientDrawable) previewMinuteTime.getBackground();
+        GradientDrawable dateBg = (GradientDrawable) previewDate.getBackground();
+
+        // Things that needs to be tinted with the background color
+        previewHourTime.setTextColor(bgColor);
+        minBg.setColor(bgColor);
+        dateBg.setColor(bgColor);
+
+        // Things that needs to be tinted with the highlighted color
+        hourBg.setColor(hiColor);
+        minBg.setStroke(mResources.getDimensionPixelSize(R.dimen.clock_oronos_outline_size),
+                            hiColor);
+        dateBg.setStroke(mResources.getDimensionPixelSize(R.dimen.clock_oronos_outline_size),
+                            hiColor);
+        previewMinuteTime.setTextColor(hiColor);
+        previewDate.setTextColor(hiColor);
+
         mTime.setTimeInMillis(System.currentTimeMillis());
         previewDate.setText(mResources.getString(R.string.date_long_title_today, mTime.getDisplayName(
                 Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault())));
