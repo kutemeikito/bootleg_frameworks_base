@@ -88,13 +88,15 @@ public class SamsungHighlightClockController implements ClockPlugin {
         mResources = res;
         mLayoutInflater = inflater;
         mColorExtractor = colorExtractor;
-        mAccentColor = mResources.getColor(R.color.typeClockAccentColor, null);
     }
 
     private void createViews() {
         mView = (ClockLayout) mLayoutInflater
                 .inflate(R.layout.digital_clock_custom, null);
         mClock = mView.findViewById(R.id.clock);
+        ColorExtractor.GradientColors colors = mColorExtractor.getColors(
+                WallpaperManager.FLAG_LOCK);
+        setColorPalette(colors.supportsDarkText(), colors.getColorPalette());
         mClock.setFormat12Hour(Html.fromHtml("hh<br><font color=" + mAccentColor + ">mm</font>"));
         mClock.setFormat24Hour(Html.fromHtml("kk<br><font color=" + mAccentColor + ">mm</font>"));
         onTimeTick();
