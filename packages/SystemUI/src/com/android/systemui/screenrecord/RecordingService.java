@@ -107,6 +107,7 @@ public class RecordingService extends Service {
     private static int AUDIO_CHANNEL_TYPE = AudioFormat.CHANNEL_IN_MONO;
     private static int VIDEO_FRAME_RATE;
     private static int VIDEO_BIT_RATE;
+    private static long mTimeMs = 0;
 
     private MediaProjectionManager mMediaProjectionManager;
     private MediaProjection mMediaProjection;
@@ -177,6 +178,7 @@ public class RecordingService extends Service {
 
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        long timePaused = 0;
 
         switch (action) {
             case ACTION_START:
@@ -224,6 +226,7 @@ public class RecordingService extends Service {
                 } else {
                     mPausedRecording = true;
                 }
+                timePaused = System.currentTimeMillis();
                 setNotificationActions(true, notificationManager);
                 break;
 
@@ -233,6 +236,7 @@ public class RecordingService extends Service {
                 } else {
                     mPausedRecording = false;
                 }
+                mTimeMs = (System.currentTimeMillis() - timePaused) - mTimeMs;
                 setNotificationActions(false, notificationManager);
                 break;
 
@@ -470,11 +474,13 @@ public class RecordingService extends Service {
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.createNotificationChannel(channel);
+        mTimeMs = System.currentTimeMillis();
 
         mRecordingNotificationBuilder = new Notification.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_screenrecord_recording)
                 .setContentTitle(getResources().getString(R.string.screenrecord_name))
                 .setUsesChronometer(true)
+                .setWhen(mTimeMs)
                 .setOngoing(true);
         setNotificationActions(false, notificationManager);
         Notification notification = mRecordingNotificationBuilder.build();
