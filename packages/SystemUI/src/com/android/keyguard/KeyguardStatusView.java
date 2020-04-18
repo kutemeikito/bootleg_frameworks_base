@@ -46,7 +46,6 @@ import com.android.systemui.Dependency;
 import com.android.systemui.omni.CurrentWeatherView;
 import com.android.systemui.R;
 import com.android.systemui.statusbar.policy.ConfigurationController;
-import com.android.systemui.tuner.TunerService;
 
 import java.io.FileDescriptor;
 import java.io.PrintWriter;
@@ -54,8 +53,7 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 public class KeyguardStatusView extends GridLayout implements
-        ConfigurationController.ConfigurationListener,
-        TunerService.Tunable {
+        ConfigurationController.ConfigurationListener {
     private static final boolean DEBUG = KeyguardConstants.DEBUG;
     private static final String TAG = "KeyguardStatusView";
     private static final int MARQUEE_DELAY_MS = 2000;
@@ -160,7 +158,7 @@ public class KeyguardStatusView extends GridLayout implements
 
     private int getLockClockFont() {
         return Settings.System.getInt(mContext.getContentResolver(),
-                Settings.System.LOCK_CLOCK_FONTS, 0);
+                Settings.System.LOCK_CLOCK_FONT_STYLE, 0);
     }
 
     /**
