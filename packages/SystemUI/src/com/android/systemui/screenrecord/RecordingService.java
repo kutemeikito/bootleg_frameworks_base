@@ -519,9 +519,8 @@ public class RecordingService extends Service {
                                     .getService(this, REQUEST_CODE, getCancelIntent(this),
                                             PendingIntent.FLAG_UPDATE_CURRENT))
                             .build());
-            }
-            notificationManager.notify(NOTIFICATION_ID, mRecordingNotificationBuilder.build());
         }
+        notificationManager.notify(NOTIFICATION_ID, mRecordingNotificationBuilder.build());
     }
 
     private Notification createSaveNotification(Uri uri) {
