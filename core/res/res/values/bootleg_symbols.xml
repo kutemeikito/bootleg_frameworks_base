@@ -20,7 +20,10 @@
     <!-- Workaround to trim baseband version's string of some devices with duplicated baseband string -->
     <java-symbol type="bool" name="config_trim_baseband_version_string" />
 
-  <!-- Whether to show a custom view for FOD -->
-  <java-symbol type="bool" name="config_needCustomFODView" />
+    <!-- Whether to show a custom view for FOD -->
+    <java-symbol type="bool" name="config_needCustomFODView" />
+
+    <!-- FOD icon dimming -->
+    <java-symbol type="bool" name="config_targetUsesInKernelDimming" />
 
 </resources>
