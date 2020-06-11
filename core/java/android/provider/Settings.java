@@ -4988,6 +4988,12 @@ public final class Settings {
         public static final String ADAPTIVE_PLAYBACK_TIMEOUT = "adaptive_playback_timeout";
 
         /**
+         * Holds current enabled volume panel implementation
+         * @hide
+         */
+        public static final String SYSTEMUI_PLUGIN_VOLUME = "systemui_plugin_volume";
+
+        /**
          * These are all public system settings
          *
          * @hide
@@ -5104,6 +5110,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(FOOTER_TEXT_SHOW);
             PRIVATE_SETTINGS.add(FOOTER_TEXT_STRING);
             PRIVATE_SETTINGS.add(BUTTON_BACKLIGHT_ONLY_WHEN_PRESSED);
+            PRIVATE_SETTINGS.add(SYSTEMUI_PLUGIN_VOLUME);
         }
 
         /**
