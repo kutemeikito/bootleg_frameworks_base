@@ -41,6 +41,7 @@ import android.os.ServiceManager;
 import android.os.SystemClock;
 import android.os.SystemProperties;
 import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.DisplayInfo;
 import android.view.InputDevice;
 import android.view.KeyCharacterMap;
@@ -257,6 +258,16 @@ public class BootlegUtils {
      */
     public static boolean supportsBlur() {
         return mBlurSupportedSysProp && !mBlurDisabledSysProp && ActivityManager.isHighEndGfx();
+    }
+
+    /**
+     * Retrieve the current accent
+     *
+     */
+    public static int getThemeAccentColor (final Context context) {
+        final TypedValue value = new TypedValue ();
+        context.getTheme ().resolveAttribute (android.R.attr.colorAccent, value, true);
+        return value.data;
     }
 
     // Omni Switch Constants
