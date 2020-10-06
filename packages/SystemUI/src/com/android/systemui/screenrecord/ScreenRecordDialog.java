@@ -25,10 +25,14 @@ import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.UserHandle;
+import android.provider.Settings;
 import android.view.Gravity;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -41,6 +45,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
+
+import static android.provider.Settings.System.SCREENRECORD_RECORD_AUDIO;
+import static android.provider.Settings.System.SCREENRECORD_AUDIO_SOURCE;
+import static android.provider.Settings.System.SCREENRECORD_SHOW_TAPS;
 
 /**
  * Activity to select screen recording options
@@ -97,6 +105,15 @@ public class ScreenRecordDialog extends Activity {
         mAudioSwitch = findViewById(R.id.screenrecord_audio_switch);
         mTapsSwitch = findViewById(R.id.screenrecord_taps_switch);
         mOptions = findViewById(R.id.screen_recording_options);
+
+        initialCheckSwitch(mAudioSwitch, SCREENRECORD_RECORD_AUDIO);
+        initialCheckSwitch(mTapsSwitch, SCREENRECORD_SHOW_TAPS);
+        initialCheckSpinner(mOptions, SCREENRECORD_AUDIO_SOURCE, 0 /* microphone*/);
+
+        setSwitchListener(mAudioSwitch, SCREENRECORD_RECORD_AUDIO);
+        setSwitchListener(mTapsSwitch, SCREENRECORD_SHOW_TAPS);
+        setSpinnerListener(mOptions, SCREENRECORD_AUDIO_SOURCE);
+
         ArrayAdapter a = new ScreenRecordingAdapter(getApplicationContext(),
                 android.R.layout.simple_spinner_dropdown_item,
                 mModes);
@@ -104,6 +121,39 @@ public class ScreenRecordDialog extends Activity {
         mOptions.setAdapter(a);
         mOptions.setOnItemClickListenerInt((parent, view, position, id) -> {
             mAudioSwitch.setChecked(true);
+        });
+    }
+
+    private void initialCheckSwitch(Switch sw, String setting) {
+        sw.setChecked(
+                Settings.System.getIntForUser(this.getContentResolver(),
+                setting, 0, UserHandle.USER_CURRENT) == 1);
+    }
+
+    private void initialCheckSpinner(Spinner spin, String setting, int defaultValue) {
+        spin.setSelection(
+                Settings.System.getIntForUser(this.getContentResolver(),
+                        setting, defaultValue, UserHandle.USER_CURRENT));
+    }
+
+    private void setSwitchListener(Switch sw, String setting) {
+        sw.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            Settings.System.putIntForUser(this.getContentResolver(),
+            setting, isChecked ? 1 : 0, UserHandle.USER_CURRENT);
+        });
+    }
+
+    private void setSpinnerListener(Spinner spin, String setting) {
+        spin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Settings.System.putIntForUser(getContentResolver(),
+                        setting, position, UserHandle.USER_CURRENT);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
         });
     }
 
