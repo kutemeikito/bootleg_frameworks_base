@@ -5049,6 +5049,12 @@ public final class Settings {
         public static final String POCKET_JUDGE = "pocket_judge";
 
         /**
+         * Controls whether to show notification headers
+         * @hide
+         */
+        public static final String NOTIFICATION_HEADERS = "notification_headers";
+
+        /**
          * These are all public system settings
          *
          * @hide
@@ -5168,6 +5174,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(SYSTEMUI_PLUGIN_VOLUME);
             PRIVATE_SETTINGS.add(VOLUME_PANEL_ON_LEFT);
             PRIVATE_SETTINGS.add(AUTHENTICATION_SUCCESS_VIB);
+            PRIVATE_SETTINGS.add(NOTIFICATION_HEADERS);
         }
 
         /**
