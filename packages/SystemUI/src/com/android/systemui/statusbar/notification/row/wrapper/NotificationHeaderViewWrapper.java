@@ -190,9 +190,12 @@ public class NotificationHeaderViewWrapper extends NotificationViewWrapper {
 
     public void applyConversationSkin() {
         if (mAppNameText != null) {
-            mAppNameText.setTextAppearance(
-                    com.android.internal.R.style
-                            .TextAppearance_DeviceDefault_Notification_Conversation_AppName);
+            final int textAppearance = Utils.getThemeAttr(
+                    mAppNameText.getContext(),
+                    com.android.internal.R.attr.notificationHeaderTextAppearance,
+                    com.android.internal.R.style.TextAppearance_DeviceDefault_Notification_Conversation_AppName);
+            mAppNameText.setTextAppearance(textAppearance);
+
             ViewGroup.MarginLayoutParams layoutParams =
                     (ViewGroup.MarginLayoutParams) mAppNameText.getLayoutParams();
             layoutParams.setMarginStart(0);

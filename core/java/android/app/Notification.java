@@ -4851,8 +4851,17 @@ public class Notification implements Parcelable
 
         private void setTextViewColorPrimary(RemoteViews contentView, int id,
                 StandardTemplateParams p) {
+            setTextViewColorPrimary(contentView, id, p, false);
+        }
+
+        private void setTextViewColorPrimary(RemoteViews contentView, int id,
+                StandardTemplateParams p, boolean checkAppNameColor) {
             ensureColors(p);
-            contentView.setTextColor(id, mPrimaryTextColor);
+            if (!mContext.getResources().getBoolean(R.bool.config_allowNotificationAppNameTextTinting)) {
+                contentView.setTextColor(id, mPrimaryTextColor);
+            } else {
+                contentView.setTextColor(id, resolveContrastColor(p));
+            }
         }
 
         private boolean hasForegroundColor() {
