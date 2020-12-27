@@ -56,7 +56,17 @@ open class BlurUtils @Inject constructor(
         if (ratio == 0f) {
             return 0
         }
-        return MathUtils.lerp(minBlurRadius.toFloat(), maxBlurRadius.toFloat(), ratio).toInt()
+        return blurRadiusOfRatio(ratio, maxBlurRadius)
+    }
+
+    /**
+     * Translates a ratio from 0 to 1 to a blur radius in pixels, allowing to specify a max value.
+     */
+    fun blurRadiusOfRatio(ratio: Float, maxRadius: int): Int {
+        if (ratio == 0f) {
+            return 0
+        }
+        return MathUtils.lerp(minBlurRadius.toFloat(), maxRadius.toFloat(), ratio).toInt()
     }
 
     /**
@@ -66,7 +76,17 @@ open class BlurUtils @Inject constructor(
         if (blur == 0) {
             return 0f
         }
-        return MathUtils.map(minBlurRadius.toFloat(), maxBlurRadius.toFloat(),
+        return ratioOfBlurRadius(blur, maxBlurRadius)
+    }
+
+    /**
+     * Translates a blur radius in pixels to a ratio between 0 to 1, allowing to specify a max value.
+     */
+    fun ratioOfBlurRadius(blur: Int, maxRadius: Int): Float {
+        if (blur == 0) {
+            return 0f
+        }
+        return MathUtils.map(minBlurRadius.toFloat(), maxRadius,
                 0f /* maxStart */, 1f /* maxStop */, blur.toFloat())
     }
 
