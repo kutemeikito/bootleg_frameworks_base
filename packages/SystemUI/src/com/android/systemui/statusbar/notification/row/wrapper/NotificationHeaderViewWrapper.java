@@ -108,7 +108,7 @@ public class NotificationHeaderViewWrapper extends NotificationViewWrapper {
                         return mIsLowPriority && mTransformLowPriorityTitle;
                     }
                 }, TRANSFORMING_VIEW_TITLE);
-        //mColor = row.getNotificationColor();
+        mColor = row.getNotificationColor();
         resolveHeaderViews();
         addAppOpsOnClickListener(row);
     }
@@ -128,7 +128,7 @@ public class NotificationHeaderViewWrapper extends NotificationViewWrapper {
         mAudiblyAlertedIcon = mView.findViewById(com.android.internal.R.id.alerted_icon);
         if (mNotificationHeader != null) {
             mNotificationHeader.setShowExpandButtonAtEnd(mShowExpandButtonAtEnd);
-            mColor = mNotificationHeader.getOriginalIconColor();
+            mColorAlt = mNotificationHeader.getOriginalIconColor();
         }
     }
 
@@ -170,7 +170,7 @@ public class NotificationHeaderViewWrapper extends NotificationViewWrapper {
         mIsLowPriority = row.getEntry().isAmbient();
         mTransformLowPriorityTitle = !row.isChildInGroup() && !row.isSummaryWithChildren();
         ArraySet<View> previousViews = mTransformationHelper.getAllTransformingViews();
-        //mColor = row.getNotificationColor();
+        mColor = row.getNotificationColor();
 
         // Reinspect the notification.
         resolveHeaderViews();
