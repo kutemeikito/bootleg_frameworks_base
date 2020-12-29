@@ -39,6 +39,7 @@ import com.android.systemui.qs.tiles.CPUInfoTile;
 import com.android.systemui.qs.tiles.DataSaverTile;
 import com.android.systemui.qs.tiles.DndTile;
 import com.android.systemui.qs.tiles.FlashlightTile;
+import com.android.systemui.qs.tiles.HeadphonesBuddyTile;
 import com.android.systemui.qs.tiles.HotspotTile;
 import com.android.systemui.qs.tiles.HeadsUpTile;
 import com.android.systemui.qs.tiles.LocationTile;
@@ -88,6 +89,7 @@ public class QSFactoryImpl implements QSFactory {
     private final Provider<ScreenRecordTile> mScreenRecordTileProvider;
     private final Provider<CaffeineTile> mCaffeineTileProvider;
     private final Provider<CompassTile> mCompassTileProvider;
+    private final Provider<HeadphonesBuddyTile> mHeadphonesBuddyTile;
     private final Provider<SoundTile> mSoundTileProvider;
     private final Provider<HeadsUpTile> mHeadsUpTileProvider;
     private final Provider<UsbTetherTile> mUsbTetherTileProvider;
@@ -120,6 +122,7 @@ public class QSFactoryImpl implements QSFactory {
             Provider<ScreenRecordTile> screenRecordTileProvider,
             Provider<CaffeineTile> caffeineTileProvider,
             Provider<CompassTile> compassTileProvider,
+            Provider<HeadphonesBuddyTile> headphonesBuddyTile,
             Provider<SoundTile> soundTileProvider,
             Provider<HeadsUpTile> headsupTileProvider,
             Provider<UsbTetherTile> usbTetherTileProvider,
@@ -148,6 +151,7 @@ public class QSFactoryImpl implements QSFactory {
         mScreenRecordTileProvider = screenRecordTileProvider;
         mCaffeineTileProvider = caffeineTileProvider;
         mCompassTileProvider = compassTileProvider;
+        mHeadphonesBuddyTile = headphonesBuddyTile;
         mSoundTileProvider = soundTileProvider;
         mHeadsUpTileProvider = headsupTileProvider;
         mUsbTetherTileProvider = usbTetherTileProvider;
@@ -210,6 +214,8 @@ public class QSFactoryImpl implements QSFactory {
                 return new CPUInfoTile(mQsHostLazy.get());
             case "compass":
                 return mCompassTileProvider.get();
+            case "headphonesbuddy":
+                return mHeadphonesBuddyTile.get();
             case "sound":
                 return mSoundTileProvider.get();
             case "heads_up":
