@@ -15,9 +15,14 @@
  */
 package com.android.systemui.theme;
 
+import android.content.FontInfo;
+import android.content.IFontService;
 import android.content.om.OverlayInfo;
 import android.content.om.OverlayManager;
 import android.os.UserHandle;
+import android.os.RemoteException;
+import android.os.ServiceManager;
+import android.text.TextUtils;
 import android.util.ArrayMap;
 import android.util.Log;
 
@@ -27,6 +32,7 @@ import com.google.android.collect.Lists;
 import com.google.android.collect.Sets;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -110,6 +116,8 @@ class ThemeOverlayManager {
     private final Executor mExecutor;
     private final String mLauncherPackage;
     private final String mThemePickerPackage;
+    private IFontService mFontService;
+    private List<FontInfo> mFontInfo = new ArrayList<FontInfo>();
 
     ThemeOverlayManager(OverlayManager overlayManager, Executor executor,
             String launcherPackage, String themePickerPackage) {
@@ -117,6 +125,8 @@ class ThemeOverlayManager {
         mExecutor = executor;
         mLauncherPackage = launcherPackage;
         mThemePickerPackage = themePickerPackage;
+        mFontService = IFontService.Stub.asInterface(
+            ServiceManager.getService("dufont"));
         mTargetPackageToCategories.put(ANDROID_PACKAGE, Sets.newHashSet(
                 OVERLAY_CATEGORY_COLOR, OVERLAY_CATEGORY_FONT,
                 OVERLAY_CATEGORY_SHAPE, OVERLAY_CATEGORY_ICON_ANDROID,
@@ -168,10 +178,24 @@ class ThemeOverlayManager {
 
         // Toggle overlays in the order of THEME_CATEGORIES.
         for (String category : THEME_CATEGORIES) {
-            if (categoryToPackage.containsKey(category)) {
-                setEnabled(categoryToPackage.get(category), category, userHandles, true);
-            } else if (overlaysToDisable.containsKey(category)) {
-                setEnabled(overlaysToDisable.get(category), category, userHandles, false);
+            if (category.equals(OVERLAY_CATEGORY_FONT)) {
+                try {
+                // Workaround
+                    mFontService.applyFont(getFontInfo(categoryToPackage.get(category)));
+                } catch (RemoteException e) {
+                    Log.w(TAG, "Font couldnt be applied. Using system default");
+                    try {
+                        mFontService.applyFont(FontInfo.getDefaultFontInfo());
+                    } catch (RemoteException f) {
+                        Log.w(TAG, "There was an error trying to apply the font");
+                    }
+                }
+            } else {
+                if (categoryToPackage.containsKey(category)) {
+                    setEnabled(categoryToPackage.get(category), category, userHandles, true);
+                } else if (overlaysToDisable.containsKey(category)) {
+                    setEnabled(overlaysToDisable.get(category), category, userHandles, false);
+                }
             }
         }
     }
@@ -200,5 +224,27 @@ class ThemeOverlayManager {
                         String.format("setEnabled failed: %s %s %b", pkg, userHandle, enabled), e);
             }
         });
+    }
+
+    private FontInfo getFontInfo(String fontId) throws RemoteException {
+        mFontInfo.clear();
+            Map<String, List<FontInfo>> fontMap = mFontService.getAllFonts();
+            for (Map.Entry<String, List<FontInfo>> entry : fontMap.entrySet()) {
+                String packageName = entry.getKey();
+                List<FontInfo> fonts = entry.getValue();
+                // manually add system font after we sort
+                if (TextUtils.equals(packageName, FontInfo.DEFAULT_FONT_PACKAGE)) {
+                    continue;
+                }
+                for (FontInfo font : fonts) {
+                    mFontInfo.add(new FontInfo(font));
+                }
+            }
+        for (FontInfo availableFont : mFontInfo) {
+            if (availableFont.fontName.toLowerCase().equals(fontId)) {
+                return availableFont;
+            }
+        }
+        return FontInfo.getDefaultFontInfo();
     }
 }
